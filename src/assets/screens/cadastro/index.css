@@ -1,0 +1,373 @@
+/* Importação da fonte Inter */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
+
+/* --- Configurações Globais --- */
+:root {
+  --bg-color: #0d0d0d;
+  --bg-card: #141414;
+  --bg-input: #0a0a0a;
+  --text-main: #ffffff;
+  --text-sub: #8c8c8c;
+  --accent-gold: #f2c94c;
+  --accent-gold-hover: #e0b840;
+  --border-color: rgba(255, 255, 255, 0.08);
+  --font-family: 'Inter', sans-serif;
+  --card-radius: 16px;
+}
+
+.aurea-container {
+  background-color: var(--bg-color);
+  color: var(--text-main);
+  font-family: var(--font-family);
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.aurea-container * {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+.aurea-container a {
+  text-decoration: none;
+  color: inherit;
+  transition: color 0.3s ease;
+}
+
+.aurea-container ul {
+  list-style: none;
+}
+
+.container {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 0 80px;
+}
+
+/* --- Botões Utilitários --- */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 12px 24px;
+  font-size: 14px;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+.btn-gold {
+  background-color: var(--accent-gold);
+  color: #1a1a1a;
+}
+
+.btn-gold:hover {
+  background-color: var(--accent-gold-hover);
+}
+
+.w-100 {
+  width: 100%;
+}
+
+.mt-2 {
+  margin-top: 8px;
+}
+
+/* --- Header --- */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  background-color: rgba(13, 13, 13, 0.9);
+  backdrop-filter: blur(12px);
+  z-index: 1000;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 80px;
+}
+
+.header-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 20px;
+  font-weight: 700;
+  color: var(--accent-gold);
+}
+
+.header-nav ul {
+  display: flex;
+  gap: 32px;
+}
+
+.header-nav a {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-sub);
+}
+
+.header-nav a:hover {
+  color: var(--text-main);
+}
+
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.header-actions .login {
+  font-size: 14px;
+  font-weight: 600;
+}
+
+.header-actions .login:hover {
+  color: var(--accent-gold);
+}
+
+/* --- Página de Cadastro --- */
+.signup-page {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  padding: 120px 20px 80px; /* Mais padding no topo por causa do header fixo */
+  min-height: calc(100vh - 80px);
+}
+
+.signup-background-strip {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  max-width: 500px;
+  background: linear-gradient(180deg, rgba(20,20,20,0.5) 0%, rgba(13,13,13,0) 100%);
+  z-index: 0;
+}
+
+/* --- Card de Cadastro --- */
+.signup-card {
+  position: relative;
+  z-index: 1;
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: var(--card-radius);
+  padding: 40px;
+  width: 100%;
+  max-width: 460px;
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+}
+
+.signup-card-icon {
+  width: 40px;
+  height: 40px;
+  background-color: var(--accent-gold);
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 24px;
+}
+
+.signup-card h2 {
+  font-size: 24px;
+  font-weight: 700;
+  color: var(--text-main);
+  margin-bottom: 8px;
+}
+
+.signup-subtitle {
+  font-size: 13px;
+  color: var(--text-sub);
+  margin-bottom: 28px;
+}
+
+/* --- Botões de Tipo de Conta (Toggle) --- */
+.account-types {
+  display: flex;
+  gap: 16px;
+  margin-bottom: 32px;
+}
+
+.type-btn {
+  flex: 1;
+  background-color: var(--bg-input);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  text-align: left;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  color: var(--text-sub);
+}
+
+.type-btn svg {
+  color: var(--text-sub);
+  margin-bottom: 12px;
+  transition: color 0.3s ease;
+}
+
+.type-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-main);
+  margin-bottom: 4px;
+}
+
+.type-desc {
+  font-size: 11px;
+  color: var(--text-sub);
+}
+
+/* Estado Ativo (Estabelecimento selecionado na imagem) */
+.type-btn.active {
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 0 1px var(--accent-gold);
+}
+
+.type-btn.active svg {
+  color: var(--accent-gold);
+}
+
+/* --- Formulário --- */
+.signup-form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.form-group label {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--text-main);
+}
+
+.form-group input,
+.form-group select {
+  width: 100%;
+  background-color: var(--bg-input);
+  border: 1px solid var(--border-color);
+  color: var(--text-main);
+  padding: 12px 16px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-family: var(--font-family);
+  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.form-group input:focus,
+.form-group select:focus {
+  border-color: var(--accent-gold);
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(242, 201, 76, 0.15);
+}
+
+/* Select Customizado */
+.select-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.select-wrapper select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  padding-right: 40px; /* Espaço para a seta */
+  cursor: pointer;
+}
+
+.select-arrow {
+  position: absolute;
+  right: 16px;
+  pointer-events: none;
+  color: var(--text-sub);
+  display: flex;
+}
+
+/* --- Login Link --- */
+.signup-login-link {
+  margin-top: 24px;
+  text-align: center;
+  font-size: 13px;
+  color: var(--text-sub);
+}
+
+.signup-login-link a {
+  color: var(--accent-gold);
+  font-weight: 600;
+}
+
+.signup-login-link a:hover {
+  color: var(--accent-gold-hover);
+  text-decoration: underline;
+}
+
+/* --- Footer --- */
+.footer {
+  padding: 40px 0;
+  border-top: 1px solid var(--border-color);
+  background-color: var(--bg-color);
+}
+
+.footer .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--text-sub);
+  font-size: 12px;
+}
+
+.footer-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.footer-nav ul {
+  display: flex;
+  gap: 32px;
+}
+
+.footer-nav a:hover {
+  color: var(--text-main);
+}
+
+/* --- Responsividade --- */
+@media (max-width: 1200px) {
+  .container { padding: 0 40px; }
+}
+
+@media (max-width: 768px) {
+  .header-nav ul { display: none; }
+  .signup-card { padding: 32px 24px; }
+  .account-types { flex-direction: column; }
+  .footer .container { flex-direction: column; gap: 20px; text-align: center; }
+  .footer-nav ul { gap: 20px; flex-wrap: wrap; justify-content: center; }
+}
