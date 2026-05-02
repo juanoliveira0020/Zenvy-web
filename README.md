@@ -1,16 +1,66 @@
-# React + Vite
+# 🌿 Zenvy
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Zenvy é uma plataforma web de reservas que conecta usuários a estabelecimentos de diversos segmentos, como barbearias, salões de beleza, manicure, entre outros.  
+O objetivo é simplificar o agendamento de serviços, oferecendo praticidade tanto para clientes quanto para negócios.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+## 🚀 Funcionalidades
 
-## React Compiler
+### 👤 Para usuários
+- Cadastro e login na plataforma  
+- Escolha de segmentos (barbearia, manicure, etc.)  
+- Visualização de estabelecimentos disponíveis  
+- Agendamento de horários de forma rápida e intuitiva  
+- Gerenciamento de reservas  
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+### 🏢 Para estabelecimentos
+- Cadastro na plataforma  
+- Criação e gerenciamento do perfil do negócio  
+- Definição de serviços e horários disponíveis  
+- Controle de agendamentos realizados  
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 💻 Tecnologias utilizadas
+
+- Frontend: React.js  
+- Estilização: CSS  
+- Outras libs: (adicione aqui se estiver usando, ex: Axios, React Router, etc.)
+
+---
+
+## 📌 Estrutura da ideia
+
+O Zenvy foi criado com foco em:
+
+Facilidade de uso
+Interface moderna
+Experiência fluida para reservas
+Centralização de serviços em um único lugar
+
+---
+
+## 👨‍💻 Autor
+
+Desenvolvido por Juan Oliveira
+GitHub: https://github.com/juanoliveira0020
+
+---
+
+## ⚙️ Como rodar o projeto
+
+```bash
+# Clone o repositório
+git clone https://github.com/juanoliveira0020/Zenvy-web.git
+
+# Acesse a pasta
+cd Zenvy-web
+
+# Instale as dependências
+npm install
+
+
+
+# Rode o projeto
+npm start
