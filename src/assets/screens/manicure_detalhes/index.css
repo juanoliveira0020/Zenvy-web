@@ -131,6 +131,7 @@
   color: #1a1a1a;
   border: none;
   cursor: pointer;
+  transition: all 0.3s ease;
 }
 
 .btn-header:hover {
@@ -270,12 +271,13 @@
   border: 1px solid var(--border-color);
   border-radius: var(--radius-md);
   cursor: pointer;
-  transition: border-color 0.2s ease, background-color 0.2s ease;
+  transition: border-color 0.2s ease, background-color 0.2s ease, transform 0.2s ease;
 }
 
 .service-card:hover {
   background-color: var(--bg-hover);
   border-color: rgba(255, 255, 255, 0.2);
+  transform: translateY(-2px);
 }
 
 .service-card.selected {
@@ -369,7 +371,11 @@
   font-family: inherit;
 }
 
-.date-btn:hover {
+.date-btn:focus-visible {
+  outline: 2px solid var(--accent-gold);
+}
+
+.date-btn:hover:not(.active) {
   border-color: rgba(255, 255, 255, 0.3);
   color: var(--text-main);
 }
@@ -426,9 +432,20 @@
   font-family: inherit;
 }
 
-.time-btn:hover {
+.time-btn:focus-visible {
+  outline: 2px solid var(--accent-gold);
+}
+
+.time-btn:hover:not(.active) {
   border-color: rgba(255, 255, 255, 0.3);
   background-color: rgba(255, 255, 255, 0.02);
+}
+
+/* NOVO: Estilo para o horário selecionado */
+.time-btn.active {
+  background-color: var(--accent-gold-dim);
+  border-color: var(--border-active);
+  color: var(--accent-gold);
 }
 
 /* Botão Confirmar e Footer do Widget */
@@ -444,12 +461,21 @@
   cursor: pointer;
   margin-top: 12px;
   font-family: inherit;
-  transition: opacity 0.2s ease;
+  transition: all 0.2s ease;
 }
 
+/* NOVO: Feedback visual quando botão está habilitado e desabilitado */
 .btn-confirm-booking.disabled {
-  opacity: 0.5;
+  opacity: 0.4;
   cursor: not-allowed;
+  background-color: var(--text-muted);
+  color: var(--bg-card);
+}
+
+.btn-confirm-booking.enabled:hover {
+  background-color: var(--accent-gold-hover);
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(242, 201, 76, 0.2);
 }
 
 .login-warning {
@@ -488,20 +514,75 @@
   color: var(--text-main);
 }
 
-/* --- Responsividade --- */
+/* ================= MELHORIAS RESPONSIVAS ================= */
+
 @media (max-width: 1200px) {
-  .container { padding: 0 40px; }
-  .layout-grid { gap: 40px; }
+  .container {
+    padding: 0 40px;
+  }
 }
 
 @media (max-width: 992px) {
-  .layout-grid { grid-template-columns: 1fr; }
-  .booking-widget { position: static; margin-top: 40px; }
-  .header-nav { display: none; }
+  .layout-grid {
+    gap: 40px;
+    grid-template-columns: 1fr 350px;
+  }
 }
 
 @media (max-width: 768px) {
-  .studio-title { font-size: 28px; }
-  .footer .container { flex-direction: column; gap: 20px; text-align: center; }
-  .footer-nav ul { justify-content: center; flex-wrap: wrap; }
+  .container {
+    padding: 0 20px;
+  }
+
+  .header-nav {
+    display: none; /* Ocultar navegação no meio para não sobrepor o logo/botões no mobile */
+  }
+
+  .studio-title {
+    font-size: 28px;
+  }
+
+  .layout-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .booking-widget {
+    position: static;
+    width: 100%;
+    margin-top: 24px;
+  }
+
+  .time-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+
+  .service-card {
+    gap: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .time-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .date-selector {
+    flex-direction: column;
+  }
+  
+  .studio-meta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 12px;
+  }
+  
+  .footer .container {
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+  }
+  
+  .header-actions .login {
+    display: none; /* Simplificar header no mobile pequeno */
+  }
 }

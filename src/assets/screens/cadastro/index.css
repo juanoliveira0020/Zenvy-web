@@ -3,16 +3,25 @@
 
 /* --- Configurações Globais --- */
 :root {
-  --bg-color: #0d0d0d;
-  --bg-card: #141414;
-  --bg-input: #0a0a0a;
+  --bg-color: #000000;
+  --bg-strip: #0a0a0a;
+  --bg-card: #111111;
+  --bg-input: #000000;
+  
   --text-main: #ffffff;
   --text-sub: #8c8c8c;
+  --text-hint: #666666;
+  
   --accent-gold: #f2c94c;
   --accent-gold-hover: #e0b840;
+  --accent-gold-active: #d4aa2b;
+  
   --border-color: rgba(255, 255, 255, 0.08);
+  --border-input: rgba(255, 255, 255, 0.1);
+  --border-focus: rgba(242, 201, 76, 0.4);
+  
   --font-family: 'Inter', sans-serif;
-  --card-radius: 16px;
+  --card-radius: 20px;
 }
 
 .aurea-container {
@@ -46,7 +55,7 @@
   width: 100%;
   max-width: 1440px;
   margin: 0 auto;
-  padding: 0 80px;
+  padding: 0 60px;
 }
 
 /* --- Botões Utilitários --- */
@@ -54,14 +63,12 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  padding: 12px 24px;
+  font-family: var(--font-family);
   font-size: 14px;
   font-weight: 600;
-  border-radius: 8px;
-  transition: all 0.3s ease;
-  cursor: pointer;
   border: none;
-  outline: none;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
 }
 
 .btn-gold {
@@ -69,12 +76,31 @@
   color: #1a1a1a;
 }
 
-.btn-gold:hover {
+.btn-gold:hover:not(:disabled) {
   background-color: var(--accent-gold-hover);
+  transform: translateY(-1px);
+}
+
+.btn-gold:active:not(:disabled) {
+  background-color: var(--accent-gold-active);
+  transform: translateY(0);
+}
+
+.btn-gold:disabled, .btn-gold.loading {
+  opacity: 0.7;
+  cursor: not-wait;
+  transform: none;
+}
+
+.btn-header {
+  padding: 10px 24px;
+  border-radius: 50px;
 }
 
 .w-100 {
   width: 100%;
+  padding: 14px;
+  border-radius: 8px;
 }
 
 .mt-2 {
@@ -87,7 +113,7 @@
   top: 0;
   left: 0;
   width: 100%;
-  background-color: rgba(13, 13, 13, 0.9);
+  background-color: rgba(0, 0, 0, 0.8);
   backdrop-filter: blur(12px);
   z-index: 1000;
   border-bottom: 1px solid var(--border-color);
@@ -103,10 +129,13 @@
 .header-logo {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 8px;
+}
+
+.header-logo .logo-text {
   font-size: 20px;
   font-weight: 700;
-  color: var(--accent-gold);
+  color: var(--text-main);
 }
 
 .header-nav ul {
@@ -143,10 +172,10 @@
 .signup-page {
   flex: 1;
   display: flex;
-  align-items: center;
+  align-items: flex-start; /* CORREÇÃO: Evita que o topo seja cortado quando a tela é pequena */
   justify-content: center;
   position: relative;
-  padding: 120px 20px 80px; /* Mais padding no topo por causa do header fixo */
+  padding: 120px 20px 80px;
   min-height: calc(100vh - 80px);
 }
 
@@ -157,8 +186,8 @@
   left: 50%;
   transform: translateX(-50%);
   width: 100%;
-  max-width: 500px;
-  background: linear-gradient(180deg, rgba(20,20,20,0.5) 0%, rgba(13,13,13,0) 100%);
+  max-width: 520px;
+  background: linear-gradient(180deg, var(--bg-strip) 0%, rgba(10, 10, 10, 0) 100%);
   z-index: 0;
 }
 
@@ -169,17 +198,18 @@
   background-color: var(--bg-card);
   border: 1px solid var(--border-color);
   border-radius: var(--card-radius);
-  padding: 40px;
+  padding: 58px 40px;
   width: 100%;
-  max-width: 460px;
-  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+  max-width: 440px;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.8);
+  margin: auto 0; /* CORREÇÃO: Centraliza verticalmente APENAS se sobrar espaço na tela */
 }
 
 .signup-card-icon {
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   background-color: var(--accent-gold);
-  border-radius: 10px;
+  border-radius: 12px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -191,12 +221,13 @@
   font-weight: 700;
   color: var(--text-main);
   margin-bottom: 8px;
+  letter-spacing: -0.5px;
 }
 
 .signup-subtitle {
-  font-size: 13px;
+  font-size: 14px;
   color: var(--text-sub);
-  margin-bottom: 28px;
+  margin-bottom: 32px;
 }
 
 /* --- Botões de Tipo de Conta (Toggle) --- */
@@ -209,8 +240,8 @@
 .type-btn {
   flex: 1;
   background-color: var(--bg-input);
-  border: 1px solid var(--border-color);
-  border-radius: 8px;
+  border: 1px solid var(--border-input);
+  border-radius: 12px;
   padding: 16px;
   display: flex;
   flex-direction: column;
@@ -221,9 +252,20 @@
   color: var(--text-sub);
 }
 
-.type-btn svg {
-  color: var(--text-sub);
+.type-icon-wrapper {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: rgba(255, 255, 255, 0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
   margin-bottom: 12px;
+  transition: all 0.3s ease;
+}
+
+.type-icon-wrapper svg {
+  color: var(--text-sub);
   transition: color 0.3s ease;
 }
 
@@ -239,14 +281,22 @@
   color: var(--text-sub);
 }
 
-/* Estado Ativo (Estabelecimento selecionado na imagem) */
-.type-btn.active {
-  border-color: var(--accent-gold);
-  box-shadow: 0 0 0 1px var(--accent-gold);
+.type-btn:hover {
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
-.type-btn.active svg {
-  color: var(--accent-gold);
+/* Estado Ativo */
+.type-btn.active {
+  border-color: var(--accent-gold);
+  box-shadow: 0 0 20px rgba(242, 201, 76, 0.1);
+}
+
+.type-btn.active .type-icon-wrapper {
+  background-color: var(--accent-gold);
+}
+
+.type-btn.active .type-icon-wrapper svg {
+  color: #1A1A1A;
 }
 
 /* --- Formulário --- */
@@ -272,20 +322,25 @@
 .form-group select {
   width: 100%;
   background-color: var(--bg-input);
-  border: 1px solid var(--border-color);
+  border: 1px solid var(--border-input);
   color: var(--text-main);
-  padding: 12px 16px;
+  padding: 14px 16px;
   border-radius: 8px;
-  font-size: 13px;
+  font-size: 14px;
   font-family: var(--font-family);
-  transition: border-color 0.3s ease, box-shadow 0.3s ease;
+  transition: all 0.2s ease;
+}
+
+.form-group input:hover,
+.form-group select:hover {
+  border-color: rgba(255, 255, 255, 0.2);
 }
 
 .form-group input:focus,
 .form-group select:focus {
   border-color: var(--accent-gold);
   outline: none;
-  box-shadow: 0 0 0 2px rgba(242, 201, 76, 0.15);
+  box-shadow: 0 0 0 3px var(--border-focus);
 }
 
 /* Select Customizado */
@@ -299,7 +354,7 @@
   appearance: none;
   -webkit-appearance: none;
   -moz-appearance: none;
-  padding-right: 40px; /* Espaço para a seta */
+  padding-right: 40px; 
   cursor: pointer;
 }
 
@@ -313,7 +368,7 @@
 
 /* --- Login Link --- */
 .signup-login-link {
-  margin-top: 24px;
+  margin-top: 32px;
   text-align: center;
   font-size: 13px;
   color: var(--text-sub);
@@ -340,14 +395,14 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  color: var(--text-sub);
-  font-size: 12px;
 }
 
 .footer-logo {
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
+  font-size: 13px;
+  color: var(--text-sub);
 }
 
 .footer-nav ul {
@@ -355,19 +410,55 @@
   gap: 32px;
 }
 
+.footer-nav a {
+  font-size: 13px;
+  color: var(--text-sub);
+}
+
 .footer-nav a:hover {
   color: var(--text-main);
 }
 
-/* --- Responsividade --- */
-@media (max-width: 1200px) {
-  .container { padding: 0 40px; }
-}
-
+/* --- Responsividade Otimizada --- */
 @media (max-width: 768px) {
-  .header-nav ul { display: none; }
-  .signup-card { padding: 32px 24px; }
-  .account-types { flex-direction: column; }
-  .footer .container { flex-direction: column; gap: 20px; text-align: center; }
-  .footer-nav ul { gap: 20px; flex-wrap: wrap; justify-content: center; }
+  .container {
+    padding: 0 20px; /* Reduzido para dar mais espaço no mobile */
+  }
+  
+  .header-nav ul {
+    display: none; 
+  }
+
+  .header-actions .login {
+    display: none;
+  }
+  
+  .signup-page {
+    padding: 100px 16px 40px; /* Menos padding lateral e inferior para caber forms grandes */
+  }
+
+  .signup-card {
+    padding: 32px 24px; /* Ajuste no card para telas estreitas */
+  }
+
+  .account-types {
+    flex-direction: column; /* Coloca os botões de tipo de conta em coluna no mobile */
+    gap: 12px;
+  }
+
+  .signup-background-strip {
+    max-width: 100%;
+  }
+
+  .footer .container {
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+  }
+  
+  .footer-nav ul {
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+  }
 }

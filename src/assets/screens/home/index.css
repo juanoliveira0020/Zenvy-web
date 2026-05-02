@@ -40,7 +40,7 @@
 
 .aurea-container img {
   max-width: 100%;
-  height: auto;
+  height: 100px;
 }
 
 /* --- Utilitários --- */
@@ -98,7 +98,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 80px;
+  height: 60px;
 }
 
 .header-logo {
@@ -135,6 +135,7 @@
 
 /* --- Seção 1: Hero --- */
 .hero {
+  margin-top: 100px;
   padding-top: 160px;
   padding-bottom: 120px;
 }
@@ -153,20 +154,22 @@
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background-color: rgba(242, 201, 76, 0.1);
+  background-color: rgba(255, 191, 0, 0.1);
   color: var(--accent-gold);
   padding: 6px 16px;
   border-radius: 50px;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 800;
   margin-bottom: 32px;
+  margin-top: 40px;
 }
 
 .hero-content h1 {
   font-size: 64px;
   font-weight: 800;
   line-height: 1.1;
-  margin-bottom: 24px;
+  margin-bottom: 44px;
+  margin-top: 100px;
 }
 
 .hero-content h1 span {
@@ -177,7 +180,7 @@
   color: var(--text-sub);
   font-size: 18px;
   max-width: 580px;
-  margin-bottom: 48px;
+  margin-bottom: 38px;
 }
 
 .hero-actions {
@@ -188,14 +191,14 @@
 
 .stats-grid {
   display: flex;
-  gap: 48px;
+  gap: 58px;
 }
 
 .stat-item h3 {
   font-size: 36px;
-  font-weight: 700;
+  font-weight: 800;
   color: var(--accent-gold);
-  margin-bottom: 4px;
+  margin-bottom: 8px;
 }
 
 .stat-item p {
@@ -216,7 +219,7 @@
   height: auto;
   border-radius: var(--card-radius);
   object-fit: cover;
-  aspect-ratio: 4 / 3;
+  aspect-ratio: 2 / 3;
   /* Placeholder imagem: salão premium */
   background-image: url('https://images.unsplash.com/photo-1599305090598-fe179d501227?q=80&w=600&auto=format&fit=crop');
   background-size: cover;
@@ -226,8 +229,8 @@
 .next-booking-widget {
   position: absolute;
   bottom: 20px;
-  left: 20px;
-  right: 20px;
+  left: 30px;
+  right: 34px;
   background-color: rgba(26, 26, 26, 0.85);
   backdrop-filter: blur(10px);
   padding: 20px;
@@ -240,30 +243,33 @@
 
 .next-booking-info h4 {
   color: var(--accent-gold);
-  font-size: 12px;
+  font-size: 14px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-bottom: 6px;
+  margin-left: 90px;
 }
 
 .next-booking-info p {
-  font-size: 16px;
+  font-size: 20px;
   font-weight: 600;
   margin-bottom: 2px;
+   margin-left: -90px;
 }
 
 .next-booking-info p.place {
   color: var(--text-sub);
   font-size: 14px;
   font-weight: 400;
+  margin-right: -110px;
 }
 
 .rating {
   display: flex;
   align-items: center;
-  gap: 6px;
+  gap: 4px;
   color: var(--accent-gold);
-  font-weight: 700;
+  font-weight: 600;
 }
 
 /* --- Seção 2: Categorias --- */
@@ -280,15 +286,18 @@
 
 .categories-title h4 {
   color: var(--accent-gold);
-  font-size: 14px;
+  font-size: 18px;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-bottom: 12px;
+  margin-top: 45px;
+  margin-left: 350px;
 }
 
 .categories-title h2 {
-  font-size: 48px;
+  font-size: 38px;
   font-weight: 700;
+  margin-top: 50px;
 }
 
 .view-all {
@@ -344,7 +353,7 @@
 
 /* Imagens de fundo dos cards (substituir por imagens reais) */
 .category-card.barber .category-card-bg { background-image: url('https://images.unsplash.com/photo-1503951914875-452162b0f3f1?q=80&w=600&auto=format&fit=crop'); }
-.category-card.manicure .category-card-bg { background-image: url('https://images.unsplash.com/photo-1610992015762-3ff6c2c8f8ac?q=80&w=600&auto=format&fit=crop'); }
+.category-card.manicure .category-card-bg { background-image: url('https://images.unsplash.com/photo-1604654894610-df63bc536371?q=80&w=1920&auto=format&fit=crop'); }
 .category-card.spa .category-card-bg { background-image: url('https://images.unsplash.com/photo-1544161515-4ab6ce6db874?q=80&w=600&auto=format&fit=crop'); }
 
 .category-card::after {
@@ -394,6 +403,7 @@
 .how-it-works .container {
   display: flex;
   justify-content: center;
+  margin-top: 60px;
 }
 
 .how-inner {
@@ -436,7 +446,7 @@
 
 .step-icon-num {
   position: relative;
-  margin-bottom: 40px;
+  margin-bottom: 10px;
 }
 
 .step-icon {
@@ -452,7 +462,7 @@
 
 .step-num {
   position: absolute;
-  bottom: -20px;
+  bottom: -35px;
   left: 50%;
   transform: translateX(-50%);
   color: var(--accent-gold);
@@ -463,7 +473,8 @@
 .step-item h3 {
   font-size: 20px;
   font-weight: 700;
-  margin-bottom: 16px;
+  margin-bottom: 5px;
+  margin-top: 35px;
 }
 
 .step-item p {

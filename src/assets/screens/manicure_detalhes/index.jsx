@@ -1,27 +1,82 @@
-import React from "react";
+import React, { useState } from "react";
 import "./index.css";
+import { useNavigate } from "react-router-dom";
 
 export default function Manicure_Detalhes() {
+  const navigate = useNavigate();
+
+  // Estados para gerenciar a interatividade
+  const [selectedService, setSelectedService] = useState("Manicure Completa");
+  const [selectedDate, setSelectedDate] = useState("sex, 01 de mai.");
+  const [selectedTime, setSelectedTime] = useState(null);
+
+  // Verifica se todos os campos necessários foram selecionados para habilitar o botão
+  const isBookingReady = selectedService && selectedDate && selectedTime;
+
+  const handleConfirmBooking = () => {
+    if (isBookingReady) {
+      alert(`Reserva confirmada!\nServiço: ${selectedService}\nData: ${selectedDate}\nHorário: ${selectedTime}`);
+    }
+  };
+
   return (
     <div className="aurea-container">
       {/* HEADER */}
       <header className="header">
         <div className="container">
-          <a href="#" className="header-logo">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <a
+            href="#"
+            className="header-logo"
+            onClick={(e) => {
+              e.preventDefault();
+              navigate("/");
+            }}
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
               <path d="M12 2L14.73 9.77L22 10.42L16.48 15.2L18.18 22L12 18.28L5.82 22L7.52 15.2L2 10.42L9.27 9.77L12 2Z" fill="#F2C94C" />
             </svg>
             Aurea.
           </a>
+
           <nav className="header-nav">
             <ul>
-              <li><a href="#">Início</a></li>
+              <li>
+                <a
+                  href="#"
+                  onClick={(e) => {
+                    e.preventDefault();
+                    navigate("/");
+                  }}
+                >
+                  Início
+                </a>
+              </li>
               <li><a href="#" className="active">Categorias</a></li>
             </ul>
           </nav>
+
           <div className="header-actions">
-            <a href="#" className="login">Entrar</a>
-            <a href="#" className="btn btn-gold btn-header">Cadastrar</a>
+            <a
+              href="#"
+              className="login"
+              onClick={(e) => {
+                e.preventDefault();
+                navigate("/login");
+              }}
+            >
+              Entrar
+            </a>
+
+            <a
+              href="#"
+              className="btn btn-gold btn-header"
+              onClick={(e) => {
+                e.preventDefault();
+                navigate("/cadastro");
+              }}
+            >
+              Cadastrar
+            </a>
           </div>
         </div>
       </header>
@@ -31,7 +86,14 @@ export default function Manicure_Detalhes() {
         <div className="studio-banner-bg" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1522337660859-02fbefca4702?q=80&w=1920&auto=format&fit=crop')" }}></div>
         <div className="studio-banner-overlay"></div>
         <div className="container studio-banner-content">
-          <a href="#" className="back-link">
+          <a 
+            href="#" 
+            className="back-link"
+            onClick={(e) => {
+              e.preventDefault();
+              navigate(-1); // Funcionalidade de voltar
+            }}
+          >
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
@@ -79,13 +141,18 @@ export default function Manicure_Detalhes() {
               <div className="services-list">
                 
                 {/* Serviço Selecionado */}
-                <div className="service-card selected">
+                <div 
+                  className={`service-card ${selectedService === "Manicure Completa" ? "selected" : ""}`}
+                  onClick={() => setSelectedService("Manicure Completa")}
+                >
                   <div className="service-info">
                     <div className="service-header">
                       <h3>Manicure Completa</h3>
-                      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M20 6L9 17L4 12" stroke="#F2C94C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                      </svg>
+                      {selectedService === "Manicure Completa" && (
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M20 6L9 17L4 12" stroke="#F2C94C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      )}
                     </div>
                     <span className="service-time">60 min</span>
                   </div>
@@ -93,10 +160,18 @@ export default function Manicure_Detalhes() {
                 </div>
 
                 {/* Serviço Padrão 1 */}
-                <div className="service-card">
+                <div 
+                  className={`service-card ${selectedService === "Pedicure Spa" ? "selected" : ""}`}
+                  onClick={() => setSelectedService("Pedicure Spa")}
+                >
                   <div className="service-info">
                     <div className="service-header">
                       <h3>Pedicure Spa</h3>
+                      {selectedService === "Pedicure Spa" && (
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M20 6L9 17L4 12" stroke="#F2C94C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      )}
                     </div>
                     <span className="service-time">75 min</span>
                   </div>
@@ -104,10 +179,18 @@ export default function Manicure_Detalhes() {
                 </div>
 
                 {/* Serviço Padrão 2 */}
-                <div className="service-card">
+                <div 
+                  className={`service-card ${selectedService === "Nail Art Premium" ? "selected" : ""}`}
+                  onClick={() => setSelectedService("Nail Art Premium")}
+                >
                   <div className="service-info">
                     <div className="service-header">
                       <h3>Nail Art Premium</h3>
+                      {selectedService === "Nail Art Premium" && (
+                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                          <path d="M20 6L9 17L4 12" stroke="#F2C94C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                        </svg>
+                      )}
                     </div>
                     <span className="service-time">90 min</span>
                   </div>
@@ -145,12 +228,27 @@ export default function Manicure_Detalhes() {
               <div className="booking-section">
                 <div className="booking-label">Escolha o dia</div>
                 <div className="date-selector">
-                  <button className="date-btn active">sex, 01 de mai.</button>
-                  <button className="date-btn">sáb, 02 de mai.</button>
-                  <button className="date-btn">dom, 03 de mai.</button>
+                  <button 
+                    className={`date-btn ${selectedDate === "sex, 01 de mai." ? "active" : ""}`}
+                    onClick={() => setSelectedDate("sex, 01 de mai.")}
+                  >
+                    sex, 01 de mai.
+                  </button>
+                  <button 
+                    className={`date-btn ${selectedDate === "sáb, 02 de mai." ? "active" : ""}`}
+                    onClick={() => setSelectedDate("sáb, 02 de mai.")}
+                  >
+                    sáb, 02 de mai.
+                  </button>
+                  <button 
+                    className={`date-btn ${selectedDate === "dom, 03 de mai." ? "active" : ""}`}
+                    onClick={() => setSelectedDate("dom, 03 de mai.")}
+                  >
+                    dom, 03 de mai.
+                  </button>
                 </div>
                 
-                {/* Scroll track (simulado visualmente com base na imagem) */}
+                {/* Scroll track */}
                 <div className="scroll-track">
                   <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <path d="M15 18L9 12L15 6" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
@@ -166,30 +264,27 @@ export default function Manicure_Detalhes() {
               <div className="booking-section">
                 <div className="booking-label">Horários disponíveis</div>
                 <div className="time-grid">
-                  <button className="time-btn">09:00</button>
-                  <button className="time-btn">09:30</button>
-                  <button className="time-btn">10:00</button>
-                  <button className="time-btn">10:30</button>
-                  <button className="time-btn">11:00</button>
-                  <button className="time-btn">11:30</button>
-                  <button className="time-btn">12:00</button>
-                  <button className="time-btn">12:30</button>
-                  <button className="time-btn">13:00</button>
-                  <button className="time-btn">13:30</button>
-                  <button className="time-btn">14:00</button>
-                  <button className="time-btn">14:30</button>
-                  <button className="time-btn">15:00</button>
-                  <button className="time-btn">15:30</button>
-                  <button className="time-btn">16:00</button>
-                  <button className="time-btn">16:30</button>
-                  <button className="time-btn">17:00</button>
-                  <button className="time-btn">17:30</button>
-                  <button className="time-btn">18:00</button>
+                  {/* Array mapeado apenas para não repetir o mesmo HTML 18 vezes, facilitando a aplicação do estado sem quebrar a estrutura */}
+                  {["09:00", "09:30", "10:00", "10:30", "11:00", "11:30", "12:00", "12:30", "13:00", "13:30", "14:00", "14:30", "15:00", "15:30", "16:00", "16:30", "17:00", "17:30", "18:00"].map((time) => (
+                    <button 
+                      key={time}
+                      className={`time-btn ${selectedTime === time ? "active" : ""}`}
+                      onClick={() => setSelectedTime(time)}
+                    >
+                      {time}
+                    </button>
+                  ))}
                 </div>
               </div>
 
               {/* Botão de Ação */}
-              <button className="btn-confirm-booking disabled" disabled>Confirmar reserva</button>
+              <button 
+                className={`btn-confirm-booking ${!isBookingReady ? "disabled" : "enabled"}`} 
+                disabled={!isBookingReady}
+                onClick={handleConfirmBooking}
+              >
+                Confirmar reserva
+              </button>
               <p className="login-warning">É necessário estar logado para reservar.</p>
 
             </div>
@@ -217,4 +312,4 @@ export default function Manicure_Detalhes() {
       </footer>
     </div>
   );
-};
+}

@@ -1,27 +1,57 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom"; // Adicionado para navegação
 import "./index.css";
 
 export default function Barbearia_Detalhes() {
+  const navigate = useNavigate();
+
+  // Estados para controlar a interatividade
+  const [selectedService, setSelectedService] = useState("Corte Masculino");
+  const [selectedDate, setSelectedDate] = useState("sex., 01 de mai.");
+  const [selectedTime, setSelectedTime] = useState(null);
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Verificação para habilitar o botão de confirmação
+  const canBook = selectedService && selectedDate && selectedTime;
+
+  // Função para simular a navegação (prevenindo comportamento padrão do <a>)
+  const handleNavigation = (e, path) => {
+    e.preventDefault();
+    navigate(path);
+  };
+
   return (
     <div className="aurea-container">
       {/* HEADER */}
       <header className="header">
         <div className="container">
-          <a href="#" className="header-logo">
+          <a href="/" onClick={(e) => handleNavigation(e, '/')} className="header-logo">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M12 2L14.73 9.77L22 10.42L16.48 15.2L18.18 22L12 18.28L5.82 22L7.52 15.2L2 10.42L9.27 9.77L12 2Z" fill="#F2C94C" />
             </svg>
             Aurea.
           </a>
-          <nav className="header-nav">
+
+          {/* Botão Hamburger (Apenas Mobile) */}
+          <button 
+            className="mobile-menu-btn" 
+            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+          >
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M3 12H21M3 6H21M3 18H21" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+            </svg>
+          </button>
+
+          <nav className={`header-nav ${isMobileMenuOpen ? "open" : ""}`}>
             <ul>
-              <li><a href="#">Início</a></li>
-              <li><a href="#" className="active">Categorias</a></li>
+              <li><a href="/" onClick={(e) => handleNavigation(e, '/')}>Início</a></li>
+              <li><a href="/categorias" onClick={(e) => handleNavigation(e, '/categorias')} className="active">Categorias</a></li>
             </ul>
           </nav>
-          <div className="header-actions">
-            <a href="#" className="login">Entrar</a>
-            <a href="#" className="btn btn-gold btn-header">Cadastrar</a>
+
+          <div className={`header-actions ${isMobileMenuOpen ? "open" : ""}`}>
+            <a href="/login" onClick={(e) => handleNavigation(e, '/login')} className="login">Entrar</a>
+            <a href="/cadastro" onClick={(e) => handleNavigation(e, '/cadastro')} className="btn btn-gold btn-header">Cadastrar</a>
           </div>
         </div>
       </header>
@@ -31,7 +61,7 @@ export default function Barbearia_Detalhes() {
         <div className="hero-banner-bg" style={{ backgroundImage: "url('https://images.unsplash.com/photo-1622286342621-4bd786c2447c?q=80&w=1920&auto=format&fit=crop')" }}></div>
         <div className="hero-banner-overlay"></div>
         <div className="container hero-banner-content">
-          <a href="#" className="back-link">
+          <a href="#" onClick={(e) => { e.preventDefault(); navigate(-1); }} className="back-link">
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M19 12H5M5 12L12 19M5 12L12 5" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
@@ -75,15 +105,20 @@ export default function Barbearia_Detalhes() {
             </div>
 
             <div className="services-list">
-              {/* Serviço 1 - Ativo */}
-              <div className="service-card active">
+              {/* Serviço 1 */}
+              <div 
+                className={`service-card ${selectedService === "Corte Masculino" ? "active" : ""}`}
+                onClick={() => setSelectedService("Corte Masculino")}
+              >
                 <div className="service-info">
                   <h3>
                     Corte Masculino
-                    <svg className="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="#F2C94C" xmlns="http://www.w3.org/2000/svg">
-                      <circle cx="12" cy="12" r="12" fill="#F2C94C" fillOpacity="0.2"/>
-                      <path d="M17 8L10 15L7 12" stroke="#F2C94C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
-                    </svg>
+                    {selectedService === "Corte Masculino" && (
+                      <svg className="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="#F2C94C" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="12" fill="#F2C94C" fillOpacity="0.2"/>
+                        <path d="M17 8L10 15L7 12" stroke="#F2C94C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    )}
                   </h3>
                   <p className="service-desc">Corte completo + finalização</p>
                   <span className="service-duration">45 min</span>
@@ -92,9 +127,20 @@ export default function Barbearia_Detalhes() {
               </div>
 
               {/* Serviço 2 */}
-              <div className="service-card">
+              <div 
+                className={`service-card ${selectedService === "Barba Premium" ? "active" : ""}`}
+                onClick={() => setSelectedService("Barba Premium")}
+              >
                 <div className="service-info">
-                  <h3>Barba Premium</h3>
+                  <h3>
+                    Barba Premium
+                    {selectedService === "Barba Premium" && (
+                      <svg className="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="#F2C94C" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="12" fill="#F2C94C" fillOpacity="0.2"/>
+                        <path d="M17 8L10 15L7 12" stroke="#F2C94C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    )}
+                  </h3>
                   <p className="service-desc">Toalha quente + óleos</p>
                   <span className="service-duration">30 min</span>
                 </div>
@@ -102,9 +148,20 @@ export default function Barbearia_Detalhes() {
               </div>
 
               {/* Serviço 3 */}
-              <div className="service-card">
+              <div 
+                className={`service-card ${selectedService === "Combo Corte + Barba" ? "active" : ""}`}
+                onClick={() => setSelectedService("Combo Corte + Barba")}
+              >
                 <div className="service-info">
-                  <h3>Combo Corte + Barba</h3>
+                  <h3>
+                    Combo Corte + Barba
+                    {selectedService === "Combo Corte + Barba" && (
+                      <svg className="check-icon" width="16" height="16" viewBox="0 0 24 24" fill="#F2C94C" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="12" cy="12" r="12" fill="#F2C94C" fillOpacity="0.2"/>
+                        <path d="M17 8L10 15L7 12" stroke="#F2C94C" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                      </svg>
+                    )}
+                  </h3>
                   <span className="service-duration">75 min</span>
                 </div>
                 <div className="service-price">R$ 130</div>
@@ -134,9 +191,9 @@ export default function Barbearia_Detalhes() {
                 <div className="step-group">
                   <span className="step-label">Escolha o dia</span>
                   <div className="date-selector">
-                    <button className="date-pill active">sex., 01 de mai.</button>
-                    <button className="date-pill">sáb., 02 de mai.</button>
-                    <button className="date-pill">dom., 03 de mai.</button>
+                    <button className={`date-pill ${selectedDate === "sex., 01 de mai." ? "active" : ""}`} onClick={() => setSelectedDate("sex., 01 de mai.")}>sex., 01 de mai.</button>
+                    <button className={`date-pill ${selectedDate === "sáb., 02 de mai." ? "active" : ""}`} onClick={() => setSelectedDate("sáb., 02 de mai.")}>sáb., 02 de mai.</button>
+                    <button className={`date-pill ${selectedDate === "dom., 03 de mai." ? "active" : ""}`} onClick={() => setSelectedDate("dom., 03 de mai.")}>dom., 03 de mai.</button>
                   </div>
                   
                   {/* Barra de navegação dos dias */}
@@ -160,31 +217,36 @@ export default function Barbearia_Detalhes() {
                 <div className="step-group">
                   <span className="step-label">Horários disponíveis</span>
                   <div className="time-grid">
-                    <button className="time-slot">09:00</button>
-                    <button className="time-slot">09:30</button>
-                    <button className="time-slot">10:00</button>
-                    <button className="time-slot">10:30</button>
-                    <button className="time-slot">11:00</button>
-                    <button className="time-slot">11:30</button>
-                    <button className="time-slot">12:00</button>
-                    <button className="time-slot">12:30</button>
-                    <button className="time-slot">13:00</button>
-                    <button className="time-slot">13:30</button>
-                    <button className="time-slot">14:00</button>
-                    <button className="time-slot">14:30</button>
-                    <button className="time-slot">15:00</button>
-                    <button className="time-slot">15:30</button>
-                    <button className="time-slot">16:00</button>
-                    <button className="time-slot">16:30</button>
-                    <button className="time-slot">17:00</button>
-                    <button className="time-slot">17:30</button>
-                    <button className="time-slot">18:00</button>
-                    <button className="time-slot">18:30</button>
-                    <button className="time-slot">19:00</button>
+                    <button className={`time-slot ${selectedTime === "09:00" ? "active" : ""}`} onClick={() => setSelectedTime("09:00")}>09:00</button>
+                    <button className={`time-slot ${selectedTime === "09:30" ? "active" : ""}`} onClick={() => setSelectedTime("09:30")}>09:30</button>
+                    <button className={`time-slot ${selectedTime === "10:00" ? "active" : ""}`} onClick={() => setSelectedTime("10:00")}>10:00</button>
+                    <button className={`time-slot ${selectedTime === "10:30" ? "active" : ""}`} onClick={() => setSelectedTime("10:30")}>10:30</button>
+                    <button className={`time-slot ${selectedTime === "11:00" ? "active" : ""}`} onClick={() => setSelectedTime("11:00")}>11:00</button>
+                    <button className={`time-slot ${selectedTime === "11:30" ? "active" : ""}`} onClick={() => setSelectedTime("11:30")}>11:30</button>
+                    <button className={`time-slot ${selectedTime === "12:00" ? "active" : ""}`} onClick={() => setSelectedTime("12:00")}>12:00</button>
+                    <button className={`time-slot ${selectedTime === "12:30" ? "active" : ""}`} onClick={() => setSelectedTime("12:30")}>12:30</button>
+                    <button className={`time-slot ${selectedTime === "13:00" ? "active" : ""}`} onClick={() => setSelectedTime("13:00")}>13:00</button>
+                    <button className={`time-slot ${selectedTime === "13:30" ? "active" : ""}`} onClick={() => setSelectedTime("13:30")}>13:30</button>
+                    <button className={`time-slot ${selectedTime === "14:00" ? "active" : ""}`} onClick={() => setSelectedTime("14:00")}>14:00</button>
+                    <button className={`time-slot ${selectedTime === "14:30" ? "active" : ""}`} onClick={() => setSelectedTime("14:30")}>14:30</button>
+                    <button className={`time-slot ${selectedTime === "15:00" ? "active" : ""}`} onClick={() => setSelectedTime("15:00")}>15:00</button>
+                    <button className={`time-slot ${selectedTime === "15:30" ? "active" : ""}`} onClick={() => setSelectedTime("15:30")}>15:30</button>
+                    <button className={`time-slot ${selectedTime === "16:00" ? "active" : ""}`} onClick={() => setSelectedTime("16:00")}>16:00</button>
+                    <button className={`time-slot ${selectedTime === "16:30" ? "active" : ""}`} onClick={() => setSelectedTime("16:30")}>16:30</button>
+                    <button className={`time-slot ${selectedTime === "17:00" ? "active" : ""}`} onClick={() => setSelectedTime("17:00")}>17:00</button>
+                    <button className={`time-slot ${selectedTime === "17:30" ? "active" : ""}`} onClick={() => setSelectedTime("17:30")}>17:30</button>
+                    <button className={`time-slot ${selectedTime === "18:00" ? "active" : ""}`} onClick={() => setSelectedTime("18:00")}>18:00</button>
+                    <button className={`time-slot ${selectedTime === "18:30" ? "active" : ""}`} onClick={() => setSelectedTime("18:30")}>18:30</button>
+                    <button className={`time-slot ${selectedTime === "19:00" ? "active" : ""}`} onClick={() => setSelectedTime("19:00")}>19:00</button>
                   </div>
                 </div>
 
-                <button className="btn-confirm disabled">Confirmar reserva</button>
+                <button 
+                  className={`btn-confirm ${!canBook ? "disabled" : ""}`}
+                  onClick={() => canBook && alert(`Reserva de ${selectedService} confirmada para ${selectedDate} às ${selectedTime}!`)}
+                >
+                  Confirmar reserva
+                </button>
                 <p className="login-notice">É necessário estar logado para reservar.</p>
               </div>
             </div>
@@ -203,12 +265,12 @@ export default function Barbearia_Detalhes() {
           </div>
           <nav className="footer-nav">
             <ul>
-              <li><a href="#">Categorias</a></li>
-              <li><a href="#">Para empresas</a></li>
+              <li><a href="/categorias" onClick={(e) => handleNavigation(e, '/categorias')}>Categorias</a></li>
+              <li><a href="/empresas" onClick={(e) => handleNavigation(e, '/empresas')}>Para empresas</a></li>
             </ul>
           </nav>
         </div>
       </footer>
     </div>
   );
-};
+}

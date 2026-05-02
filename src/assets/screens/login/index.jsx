@@ -1,54 +1,83 @@
-import React from "react";
+import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import "./index.css";
 
 export default function Login() {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState("");
+  const [isSubmitting, setIsSubmitting] = useState(false);
+
+  // Função para lidar com navegação de links
+  const handleNavigation = (e, path) => {
+    e.preventDefault();
+    navigate(path);
+  };
+
+  // Função para simular o login
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!email) return;
+    
+    setIsSubmitting(true);
+    // Simula um delay de API
+    setTimeout(() => {
+      setIsSubmitting(false);
+      navigate("/home"); // Redireciona para o início após logar
+    }, 1500);
+  };
+
   return (
     <div className="aurea-container">
       {/* HEADER */}
       <header className="header">
         <div className="container">
-          <a href="#" className="header-logo">
+          <a href="/" onClick={(e) => handleNavigation(e, '/')} className="header-logo">
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M12 2L14.73 9.77L22 10.42L16.48 15.2L18.18 22L12 18.28L5.82 22L7.52 15.2L2 10.42L9.27 9.77L12 2Z" fill="#F2C94C" />
             </svg>
-            Aurea.
+            <span className="logo-text">Aurea.</span>
           </a>
+          
           <nav className="header-nav">
             <ul>
-              <li><a href="#">Início</a></li>
-              <li><a href="#">Categorias</a></li>
+              <li><a href="/" onClick={(e) => handleNavigation(e, '/')}>Início</a></li>
+              <li><a href="/categorias" onClick={(e) => handleNavigation(e, '/categorias')}>Categorias</a></li>
             </ul>
           </nav>
+          
           <div className="header-actions">
-            <a href="#" className="login active">Entrar</a>
-            <a href="#" className="btn btn-gold btn-header">Cadastrar</a>
+            <a href="/login" onClick={(e) => handleNavigation(e, '/login')} className="login-link active">Entrar</a>
+            <button onClick={() => navigate('/cadastro')} className="btn btn-gold btn-pill">Cadastrar</button>
           </div>
         </div>
       </header>
 
-      {/* CONTEÚDO PRINCIPAL: PÁGINA DE LOGIN */}
+      {/* CONTEÚDO PRINCIPAL */}
       <main className="login-page">
-        <div className="login-background-strip"></div>
+        {/* Faixa vertical de fundo conforme a imagem */}
+        <div className="background-strip"></div>
         
         <div className="login-card">
-          <div className="login-card-icon">
+          <div className="card-icon">
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M12 2L14.73 9.77L22 10.42L16.48 15.2L18.18 22L12 18.28L5.82 22L7.52 15.2L2 10.42L9.27 9.77L12 2Z" fill="#1A1A1A" />
             </svg>
           </div>
           
-          <h2>Bem-vindo de volta</h2>
-          <p className="login-subtitle">
+          <h2 className="card-title">Bem-vindo de volta</h2>
+          <p className="card-subtitle">
             Acesse sua conta para reservar e gerenciar seus horários.
           </p>
 
-          <form className="login-form" onSubmit={(e) => e.preventDefault()}>
+          <form className="form" onSubmit={handleSubmit}>
             <div className="form-group">
               <label htmlFor="email">E-mail</label>
               <input 
                 type="email" 
                 id="email" 
                 placeholder="voce@email.com" 
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required 
               />
               <span className="form-hint">
@@ -56,13 +85,17 @@ export default function Login() {
               </span>
             </div>
 
-            <button type="submit" className="btn btn-gold w-100">
-              Entrar
+            <button 
+              type="submit" 
+              className={`btn btn-gold w-100 ${isSubmitting ? 'loading' : ''}`}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? 'Entrando...' : 'Entrar'}
             </button>
           </form>
 
-          <p className="login-signup">
-            Ainda não tem conta? <a href="#">Cadastre-se</a>
+          <p className="signup-text">
+            Ainda não tem conta? <a href="/cadastro" onClick={(e) => handleNavigation(e, '/cadastro')}>Cadastre-se</a>
           </p>
         </div>
       </main>
@@ -70,20 +103,20 @@ export default function Login() {
       {/* FOOTER */}
       <footer className="footer">
         <div className="container">
-          <div className="footer-logo">
+          <div className="footer-brand">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M12 2L14.73 9.77L22 10.42L16.48 15.2L18.18 22L12 18.28L5.82 22L7.52 15.2L2 10.42L9.27 9.77L12 2Z" fill="#F2C94C" />
             </svg>
-            Aurea — A nova era das reservas premium
+            <span>Aurea — A nova era das reservas premium</span>
           </div>
-          <nav className="footer-nav">
+          <nav className="footer-links">
             <ul>
-              <li><a href="#">Categorias</a></li>
-              <li><a href="#">Para empresas</a></li>
+              <li><a href="/categorias" onClick={(e) => handleNavigation(e, '/categorias')}>Categorias</a></li>
+              <li><a href="/empresas" onClick={(e) => handleNavigation(e, '/empresas')}>Para empresas</a></li>
             </ul>
           </nav>
         </div>
       </footer>
     </div>
   );
-};
+}

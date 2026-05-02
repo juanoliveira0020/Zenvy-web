@@ -69,6 +69,7 @@
   justify-content: space-between;
   align-items: center;
   height: 80px;
+  position: relative; /* Adicionado para navegação mobile referenciar o topo */
 }
 
 .header-logo {
@@ -135,6 +136,16 @@
   background-color: var(--accent-gold-hover);
 }
 
+/* --- Menu Mobile --- */
+.mobile-menu-btn {
+  display: none;
+  background: none;
+  border: none;
+  color: var(--text-main);
+  cursor: pointer;
+  padding: 8px;
+}
+
 /* --- Hero Banner --- */
 .hero-banner {
   margin-top: 80px;
@@ -179,6 +190,7 @@
   font-size: 13px;
   font-weight: 500;
   margin-bottom: 20px;
+  cursor: pointer;
 }
 
 .back-link:hover {
@@ -266,7 +278,7 @@
 }
 
 .service-card:hover {
-  background-color: rgba(255, 255, 255, 0.02);
+  background-color: rgba(255, 255, 255, 0.04);
 }
 
 .service-card.active {
@@ -359,95 +371,110 @@
   margin-bottom: 12px;
 }
 
+/* --- Seletor de Datas (Estilo Manicure Detalhes) --- */
 .date-selector {
   display: flex;
-  gap: 8px;
-  margin-bottom: 12px;
+  gap: 12px;
+  margin-bottom: 24px;
+  overflow-x: auto; /* Habilita rolagem horizontal */
+  padding-bottom: 8px; /* Espaço para a sombra não cortar */
+  
+  /* Esconde a barra de rolagem nativa para um visual mais limpo */
+  -ms-overflow-style: none;  /* IE e Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+.date-selector::-webkit-scrollbar {
+  display: none; /* Chrome, Safari e Opera */
 }
 
 .date-pill {
-  flex: 1;
-  background-color: transparent;
+  flex: 0 0 auto; /* Impede que os itens encolham */
+  min-width: 68px; /* Largura fixa para manter o padrão */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 14px 8px;
+  background-color: var(--bg-color);
   border: 1px solid var(--border-color);
+  border-radius: 16px; /* Cantos bem arredondados */
   color: var(--text-main);
-  padding: 10px 4px;
-  font-size: 12px;
-  font-weight: 500;
-  border-radius: var(--radius-sm);
   cursor: pointer;
-  text-align: center;
-  transition: all 0.2s ease;
+  transition: all 0.3s ease;
+}
+
+/* Caso tenha separação de Dia da Semana e Dia do Mês no seu JSX */
+.date-pill span:first-child {
+  font-size: 11px;
+  text-transform: uppercase;
+  color: var(--text-sub);
+  margin-bottom: 4px;
+  font-weight: 500;
+}
+
+.date-pill span:last-child {
+  font-size: 38px;
+  font-weight: 600;
 }
 
 .date-pill:hover {
-  border-color: rgba(255, 255, 255, 0.2);
+  border-color: var(--accent-gold);
+  transform: translateY(-2px);
 }
 
 .date-pill.active {
   background-color: var(--accent-gold);
   border-color: var(--accent-gold);
-  color: #1a1a1a;
-  font-weight: 600;
+  color: #FFFFFF;
+  box-shadow: 0 6px 16px var(--accent-gold-muted);
 }
 
+/* Força os textos internos ficarem brancos quando ativo */
+.date-pill.active span:first-child,
+.date-pill.active span:last-child {
+  color: #FFFFFF;
+}
+
+/* Oculta os controles antigos de scrollbar caso ainda estejam no JSX */
 .date-scrollbar {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  background: var(--bg-card);
-  padding: 4px 8px;
-  border-radius: 20px;
-  border: 1px solid var(--border-color);
+  display: none; 
 }
 
-.scroll-arrow {
-  background: none;
-  border: none;
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.scroll-track {
-  flex: 1;
-  height: 4px;
-  background: rgba(255, 255, 255, 0.05);
-  border-radius: 2px;
-  position: relative;
-}
-
-.scroll-thumb {
-  position: absolute;
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 30%;
-  background-color: var(--text-muted);
-  border-radius: 2px;
-}
-
+/* --- Seletor de Horários (Estilo Manicure Detalhes) --- */
 .time-grid {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 10px;
+  /* Cria colunas responsivas que se ajustam automaticamente */
+  grid-template-columns: repeat(auto-fill, minmax(85px, 1fr));
+  gap: 12px;
 }
 
 .time-slot {
-  background-color: transparent;
+  background-color: var(--bg-color);
   border: 1px solid var(--border-color);
   color: var(--text-main);
-  padding: 10px 0;
-  font-size: 13px;
+  padding: 12px 0;
+  text-align: center;
+  font-size: 18px;
   font-weight: 500;
-  border-radius: var(--radius-sm);
+  border-radius: 12px;
   cursor: pointer;
-  transition: all 0.2s ease;
+  transition: all 0.2s ease-in-out;
+  height: 45px;
 }
 
 .time-slot:hover {
   border-color: var(--accent-gold);
   color: var(--accent-gold);
+  background-color: var(--bg-card);
+}
+
+.time-slot.active {
+  background-color: var(--accent-gold);
+  border-color: var(--accent-gold);
+  color: #FFFFFF;
+  font-weight: 600;
+  box-shadow: 0 4px 12px var(--accent-gold-muted);
 }
 
 .btn-confirm {
@@ -461,7 +488,12 @@
   font-weight: 600;
   cursor: pointer;
   margin-bottom: 16px;
-  transition: background-color 0.2s ease;
+  transition: background-color 0.2s ease, opacity 0.2s ease;
+  height: 25px;
+}
+
+.btn-confirm:not(.disabled):hover {
+  background-color: var(--accent-gold-hover);
 }
 
 .btn-confirm.disabled {
@@ -514,7 +546,40 @@
 @media (max-width: 992px) {
   .layout-grid { grid-template-columns: 1fr; }
   .booking-widget { position: static; max-width: 500px; margin: 0 auto; }
+  
+  /* Menu Mobile Integrado */
+  .mobile-menu-btn { display: block; }
+  .header-actions { display: none; }
   .header-nav { display: none; }
+  
+  .header-nav.open, .header-actions.open {
+    display: flex;
+    position: absolute;
+    left: 0;
+    width: 100%;
+    background-color: rgba(13, 13, 13, 0.95);
+    padding: 20px;
+    border-bottom: 1px solid var(--border-color);
+    transform: none;
+    z-index: 999;
+  }
+  
+  .header-nav.open {
+    top: 80px;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .header-nav.open ul {
+    flex-direction: column;
+    gap: 20px;
+    text-align: center;
+  }
+  
+  .header-actions.open {
+    top: 180px;
+    justify-content: center;
+  }
 }
 
 @media (max-width: 768px) {
@@ -522,4 +587,6 @@
   .hero-banner-content h1 { font-size: 32px; }
   .hero-meta { flex-direction: column; align-items: flex-start; gap: 12px; }
   .footer .container { flex-direction: column; gap: 20px; text-align: center; }
+  .time-grid { grid-template-columns: repeat(2, 1fr); }
+  .date-selector { flex-direction: column; }
 }

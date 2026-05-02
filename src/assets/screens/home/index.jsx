@@ -1,13 +1,16 @@
 import React from "react";
 import "./index.css";
+import { useNavigate } from "react-router-dom"; // 👈 ADICIONADO
 
 export default function Home() {
+  const navigate = useNavigate(); // 👈 ADICIONADO
+
   return (
     <div className="aurea-container">
       {/* HEADER */}
       <header className="header">
         <div className="container">
-          <a href="#" className="header-logo">
+          <a href="#" className="header-logo" onClick={() => navigate("/")}>
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M12 2L14.73 9.77L22 10.42L16.48 15.2L18.18 22L12 18.28L5.82 22L7.52 15.2L2 10.42L9.27 9.77L12 2Z" fill="#F2C94C" />
             </svg>
@@ -15,13 +18,13 @@ export default function Home() {
           </a>
           <nav className="header-nav">
             <ul>
-              <li><a href="#">Início</a></li>
-              <li><a href="#">Categorias</a></li>
+              <li><a href="#" onClick={() => navigate("/home")}>Início</a></li>
+              <li><a href="#" onClick={() => navigate("/categorias")}>Categorias</a></li>
             </ul>
           </nav>
           <div className="header-actions">
-            <a href="#" className="login">Entrar</a>
-            <a href="#" className="btn btn-gold btn-header">Cadastrar</a>
+            <a href="#" className="login" onClick={() => navigate("/login")}>Entrar</a>
+            <a href="#" className="btn btn-gold btn-header" onClick={() => navigate("/cadastro")}>Cadastrar</a>
           </div>
         </div>
       </header>
@@ -46,8 +49,8 @@ export default function Home() {
               Barbearias, salões, estética e bem-estar. Encontre os melhores estabelecimentos da sua cidade e agende com horários em tempo real.
             </p>
             <div className="hero-actions">
-              <a href="#" className="btn btn-gold">Explorar categorias →</a>
-              <a href="#" className="btn btn-contoured">Sou um estabelecimento</a>
+              <a href="#" className="btn btn-gold" onClick={() => navigate("/categorias")}>Explorar categorias →</a>
+              <a href="#" className="btn btn-contoured" onClick={() => navigate("/cadastro")}>Sou um estabelecimento</a>
             </div>
             <div className="stats-grid">
               <div className="stat-item">
@@ -93,11 +96,15 @@ export default function Home() {
               <h4>Categorias</h4>
               <h2>Para cada momento, uma experiência</h2>
             </div>
-            <a href="#" className="view-all">Ver todas →</a>
+            <a href="#" className="view-all" onClick={() => navigate("/categorias")}>Ver todas →</a>
           </div>
           <div className="category-grid">
             {/* Card 1: Barbearia */}
-            <div className="category-card barber">
+            <div 
+              className="category-card barber" 
+              onClick={() => navigate("/categoria/barbearia")}
+              style={{ cursor: "pointer" }}
+            >
               <div className="category-card-bg"></div>
               <div className="category-content">
                 <div className="category-icon">
@@ -110,7 +117,11 @@ export default function Home() {
               </div>
             </div>
             {/* Card 2: Manicure */}
-            <div className="category-card manicure">
+            <div 
+              className="category-card manicure" 
+              onClick={() => navigate("/categoria/manicure")}
+              style={{ cursor: "pointer" }}
+            >
               <div className="category-card-bg"></div>
               <div className="category-content">
                 <div className="category-icon">
@@ -123,7 +134,11 @@ export default function Home() {
               </div>
             </div>
             {/* Card 3: Estética */}
-            <div className="category-card spa">
+            <div 
+              className="category-card spa" 
+              onClick={() => navigate("/categoria/estetica")}
+              style={{ cursor: "pointer" }}
+            >
               <div className="category-card-bg"></div>
               <div className="category-content">
                 <div className="category-icon">
@@ -201,12 +216,12 @@ export default function Home() {
           </div>
           <nav className="footer-nav">
             <ul>
-              <li><a href="#">Categorias</a></li>
-              <li><a href="#">Para empresas</a></li>
+              <li><a href="#" onClick={() => navigate("/categorias")}>Categorias</a></li>
+              <li><a href="#" onClick={() => navigate("/empresa")}>Para empresas</a></li>
             </ul>
           </nav>
         </div>
       </footer>
     </div>
   );
-};
+}
