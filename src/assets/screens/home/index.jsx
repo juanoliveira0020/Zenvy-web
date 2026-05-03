@@ -14,7 +14,7 @@ export default function Home() {
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M12 2L14.73 9.77L22 10.42L16.48 15.2L18.18 22L12 18.28L5.82 22L7.52 15.2L2 10.42L9.27 9.77L12 2Z" fill="#F2C94C" />
             </svg>
-            Aurea.
+            Zenvy.
           </a>
           <nav className="header-nav">
             <ul>
@@ -49,7 +49,7 @@ export default function Home() {
               Barbearias, salões, estética e bem-estar. Encontre os melhores estabelecimentos da sua cidade e agende com horários em tempo real.
             </p>
             <div className="hero-actions">
-              <a href="#" className="btn btn-gold" onClick={() => navigate("/categorias")}>Explorar categorias →</a>
+              <a href="#" className="btn btn-gold" onClick={() => navigate("/categorias")}>Explorar categorias </a>
               <a href="#" className="btn btn-contoured" onClick={() => navigate("/cadastro")}>Sou um estabelecimento</a>
             </div>
             <div className="stats-grid">
@@ -212,7 +212,7 @@ export default function Home() {
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M12 2L14.73 9.77L22 10.42L16.48 15.2L18.18 22L12 18.28L5.82 22L7.52 15.2L2 10.42L9.27 9.77L12 2Z" fill="#F2C94C" />
             </svg>
-            Aurea — A nova era das reservas premium
+            Zenvy — A nova era das reservas premium
           </div>
           <nav className="footer-nav">
             <ul>
