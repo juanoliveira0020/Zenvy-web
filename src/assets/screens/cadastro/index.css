@@ -250,6 +250,7 @@
   cursor: pointer;
   transition: all 0.3s ease;
   color: var(--text-sub);
+  
 }
 
 .type-icon-wrapper {
@@ -303,7 +304,7 @@
 .signup-form {
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 25px;
 }
 
 .form-group {
@@ -368,7 +369,7 @@
 
 /* --- Login Link --- */
 .signup-login-link {
-  margin-top: 32px;
+  margin-top: 22px;
   text-align: center;
   font-size: 13px;
   color: var(--text-sub);

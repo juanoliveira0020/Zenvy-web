@@ -1,4 +1,4 @@
-/* Importação da fonte Inter */
+/* Importação da fonte Inter */ 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap');
 
 /* --- Configurações Globais --- */
@@ -20,6 +20,8 @@
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
+
+  margin-top: 20px; /* 👈 AQUI: aumentei pra realmente abaixar */
 }
 
 .aurea-container * {
@@ -160,16 +162,16 @@
   border-radius: 50px;
   font-size: 14px;
   font-weight: 800;
-  margin-bottom: 32px;
-  margin-top: 40px;
+  margin-bottom: 16px; /* Reduzido de 32px para aproximar do H1 */
+  margin-top: 20px;
 }
 
 .hero-content h1 {
   font-size: 64px;
   font-weight: 800;
-  line-height: 1.1;
-  margin-bottom: 44px;
-  margin-top: 100px;
+  line-height: 1; /* Reduzido de 1.1 para aproximar as linhas do título */
+  margin-bottom: 16px; /* Reduzido de 44px para aproximar do parágrafo */
+  margin-top: 0; /* Reduzido de 100px para encostar na premium-tag */
 }
 
 .hero-content h1 span {
@@ -185,8 +187,15 @@
 
 .hero-actions {
   display: flex;
-  gap: 20px;
+  justify-content: center; /* Mantém os botões centralizados na área do texto */
+  gap: 30px; /* 👈 AQUI: Define o espaçamento entre os dois botões */
   margin-bottom: 64px;
+}
+
+/* 👈 AQUI: Focamos apenas no botão amarelo de dentro do hero para não afetar outros botões do site */
+.hero-actions .btn-gold {
+  padding: 20px 60px; /* Aumenta a altura e a largura do botão */
+  font-size: 15px; /* Aumenta levemente a fonte para acompanhar o novo tamanho */
 }
 
 .stats-grid {
@@ -207,6 +216,7 @@
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin-bottom: 0;
+  height: 15px;
 }
 
 .hero-image-container {
@@ -403,7 +413,7 @@
 .how-it-works .container {
   display: flex;
   justify-content: center;
-  margin-top: 60px;
+  margin-top: 45px;
 }
 
 .how-inner {
@@ -487,6 +497,7 @@
 .footer {
   padding: 60px 0;
   border-top: 1px solid rgba(255, 255, 255, 0.05);
+ 
 }
 
 .footer .container {

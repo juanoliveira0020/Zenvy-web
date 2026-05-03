@@ -2,9 +2,9 @@
 
 /* --- Variáveis Globais (Fidelidade à Imagem) --- */
 :root {
-  --bg-app: #000000; /* Fundo preto profundo */
-  --bg-strip: #0a0a0a; /* Faixa central sutil */
-  --bg-card: #111111; /* Cinza muito escuro para o card */
+  --bg-app: #000000;
+  --bg-strip: #0a0a0a;
+  --bg-card: #111111;
   --bg-input: #000000;
   
   --text-primary: #FFFFFF;
@@ -50,6 +50,8 @@ ul {
   display: flex;
   flex-direction: column;
   min-height: 100vh;
+
+  padding-top: 80px; /* 👈 CORREÇÃO AQUI */
 }
 
 .container {
@@ -76,7 +78,7 @@ ul {
 
 .btn-gold {
   background-color: var(--accent-gold);
-  color: #1A1A1A; /* Texto escuro no botão dourado */
+  color: #1A1A1A;
 }
 
 .btn-gold:hover:not(:disabled) {
@@ -97,13 +99,13 @@ ul {
 
 .btn-pill {
   padding: 10px 24px;
-  border-radius: 50px; /* Arredondamento total para o header */
+  border-radius: 50px;
 }
 
 .w-100 {
   width: 100%;
   padding: 14px;
-  border-radius: 8px; /* Arredondamento suave no form */
+  border-radius: 8px;
 }
 
 /* --- Header --- */
@@ -179,6 +181,7 @@ ul {
   padding: 100px 20px 60px;
 }
 
+/* --- resto do código permanece EXATAMENTE igual --- */
 /* A faixa vertical escura atrás do card que aparece na referência */
 .background-strip {
   position: absolute;
@@ -237,6 +240,7 @@ ul {
   display: flex;
   flex-direction: column;
   gap: 64px;
+  margin-top: 25px;
 }
 
 .form-group {

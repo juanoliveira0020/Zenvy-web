@@ -156,6 +156,7 @@
   font-weight: 700;
   line-height: 1.2;
   margin-bottom: 16px;
+  margin-top: 35px;
 }
 
 .page-header h1 span {
@@ -166,6 +167,7 @@
   color: var(--text-sub);
   font-size: 16px;
   max-width: 600px;
+  margin-left: 195px;
 }
 
 /* --- Grid de Cards --- */
