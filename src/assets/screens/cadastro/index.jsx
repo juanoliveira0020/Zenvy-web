@@ -34,7 +34,7 @@ export default function Cadastro() {
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M12 2L14.73 9.77L22 10.42L16.48 15.2L18.18 22L12 18.28L5.82 22L7.52 15.2L2 10.42L9.27 9.77L12 2Z" fill="#F2C94C" />
             </svg>
-            <span className="logo-text">Aurea.</span>
+            <span className="logo-text">Zenvy.</span>
           </a>
           
           <nav className="header-nav">
@@ -140,8 +140,8 @@ export default function Cadastro() {
                       <option value="" disabled>Selecione uma opção</option>
                       <option value="barbearia">Barbearia</option>
                       <option value="salao">Salão de Beleza</option>
-                      <option value="estetica">Estética</option>
-                      <option value="tatuagem">Tatuagem</option>
+                      <option value="estetica">Spa</option>
+                     
                     </select>
                     <div className="select-arrow">
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -152,7 +152,7 @@ export default function Cadastro() {
                 </div>
 
                 <div className="form-group">
-                  <label htmlFor="cidade">Cidade</label>
+                  <label htmlFor="cidade">Endereço</label>
                   <input type="text" id="cidade" required />
                 </div>
               </>
@@ -180,7 +180,7 @@ export default function Cadastro() {
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
               <path d="M12 2L14.73 9.77L22 10.42L16.48 15.2L18.18 22L12 18.28L5.82 22L7.52 15.2L2 10.42L9.27 9.77L12 2Z" fill="#F2C94C" />
             </svg>
-            Aurea — A nova era das reservas premium
+            Zenvy — A nova era das reservas premium
           </div>
           <nav className="footer-nav">
             <ul>
