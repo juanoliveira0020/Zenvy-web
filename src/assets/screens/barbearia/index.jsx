@@ -23,8 +23,13 @@ export default function Barbearia() {
             </ul>
           </nav>
           <div className="header-actions">
-            <a href="#" className="login">Entrar</a>
-            <a href="#" className="btn btn-gold btn-header">Cadastrar</a>
+           <a href="#" className="login" onClick={() => navigate("/login")}>
+  Entrar
+</a>
+
+<a href="#" className="btn btn-gold btn-header" onClick={() => navigate("/cadastro")}>
+  Cadastrar
+</a>
           </div>
         </div>
       </header>
