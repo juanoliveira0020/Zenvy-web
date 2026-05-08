@@ -4,10 +4,12 @@ import "./index.css";
 
 export default function Login() {
   const navigate = useNavigate();
+  // Estado para controlar o tipo de conta no login, igual ao cadastro
+  const [accountType, setAccountType] = useState('cliente');
   const [email, setEmail] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
 
-  // Função para lidar com navegação de links
+  // Função para lidar com navegação suave
   const handleNavigation = (e, path) => {
     e.preventDefault();
     navigate(path);
@@ -19,10 +21,16 @@ export default function Login() {
     if (!email) return;
     
     setIsSubmitting(true);
-    // Simula um delay de API
+    
+    // Simula tempo de requisição e redireciona de acordo com o tipo de conta
     setTimeout(() => {
       setIsSubmitting(false);
-      navigate("/home"); // Redireciona para o início após logar
+      
+      if (accountType === 'empresa') {
+        navigate("/dashboard"); // Redireciona a empresa para o dashboard
+      } else {
+        navigate("/perfil"); // Redireciona o cliente para a página de perfil
+      }
     }, 1500);
   };
 
@@ -52,9 +60,8 @@ export default function Login() {
         </div>
       </header>
 
-      {/* CONTEÚDO PRINCIPAL */}
+      {/* CONTEÚDO PRINCIPAL: PÁGINA DE LOGIN */}
       <main className="login-page">
-        {/* Faixa vertical de fundo conforme a imagem */}
         <div className="background-strip"></div>
         
         <div className="login-card">
@@ -66,12 +73,43 @@ export default function Login() {
           
           <h2 className="card-title">Bem-vindo de volta</h2>
           <p className="card-subtitle">
-            Acesse sua conta para reservar e gerenciar seus horários.
+            Acesse sua conta para gerenciar suas reservas.
           </p>
+
+          {/* SELETOR DE TIPO DE CONTA (IDÊNTICO AO CADASTRO) */}
+          <div className="account-types">
+            <button 
+              type="button" 
+              className={`type-btn ${accountType === 'cliente' ? 'active' : ''}`}
+              onClick={() => setAccountType('cliente')}
+            >
+              <div className="type-icon-wrapper">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M20 21V19C20 17.9391 19.5786 16.9217 18.8284 16.1716C18.0783 15.4214 17.0609 15 16 15H8C6.93913 15 5.92172 15.4214 5.17157 16.1716C4.42143 16.9217 4 17.9391 4 19V21M16 7C16 9.20914 14.2091 11 12 11C9.79086 11 8 9.20914 8 7C8 4.79086 9.79086 3 12 3C14.2091 3 16 4.79086 16 7Z" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+              <span className="type-title">Cliente</span>
+              <span className="type-desc">Entrar como usuário</span>
+            </button>
+            
+            <button 
+              type="button" 
+              className={`type-btn ${accountType === 'empresa' ? 'active' : ''}`}
+              onClick={() => setAccountType('empresa')}
+            >
+              <div className="type-icon-wrapper">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <path d="M3 21H21M5 21V7L13 3V21M19 21V11L13 7M9 9V9.01M9 13V13.01M9 17V17.01M15 13V13.01M15 17V17.01" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
+                </svg>
+              </div>
+              <span className="type-title">Empresa</span>
+              <span className="type-desc">Área do estabelecimento</span>
+            </button>
+          </div>
 
           <form className="form" onSubmit={handleSubmit}>
             <div className="form-group">
-              <label htmlFor="email">E-mail</label>
+              <label htmlFor="email">E-mail cadastrado</label>
               <input 
                 type="email" 
                 id="email" 
@@ -81,7 +119,7 @@ export default function Login() {
                 required 
               />
               <span className="form-hint">
-                Demo: digite qualquer e-mail. Caso não exista, criamos como cliente.
+                Demo: digite qualquer e-mail para simular o login.
               </span>
             </div>
 
@@ -90,7 +128,7 @@ export default function Login() {
               className={`btn btn-gold w-100 ${isSubmitting ? 'loading' : ''}`}
               disabled={isSubmitting}
             >
-              {isSubmitting ? 'Entrando...' : 'Entrar'}
+              {isSubmitting ? 'Autenticando...' : 'Entrar na conta'}
             </button>
           </form>
 
