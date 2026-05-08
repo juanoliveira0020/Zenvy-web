@@ -19,9 +19,14 @@ export default function Cadastro() {
     setIsSubmitting(true);
     
     // Simula tempo de requisição e redireciona
-    setTimeout(() => {
+ setTimeout(() => {
       setIsSubmitting(false);
-      navigate("/login");
+      
+      if (accountType === 'estabelecimento') {
+        navigate("/dashboard"); // ✅ Agora está igual ao App.js!
+      } else {
+        navigate("/home"); 
+      }
     }, 1500);
   };
 
@@ -141,7 +146,6 @@ export default function Cadastro() {
                       <option value="barbearia">Barbearia</option>
                       <option value="salao">Salão de Beleza</option>
                       <option value="estetica">Spa</option>
-                     
                     </select>
                     <div className="select-arrow">
                       <svg width="12" height="12" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
