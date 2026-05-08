@@ -28,6 +28,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  
 }
 
 .aurea-container a {
@@ -188,13 +189,14 @@
 .hero-actions {
   display: flex;
   justify-content: center; /* Mantém os botões centralizados na área do texto */
-  gap: 30px; /* 👈 AQUI: Define o espaçamento entre os dois botões */
+  gap: 20px; /* 👈 AQUI: Define o espaçamento entre os dois botões */
   margin-bottom: 64px;
+  
 }
 
 /* 👈 AQUI: Focamos apenas no botão amarelo de dentro do hero para não afetar outros botões do site */
 .hero-actions .btn-gold {
-  padding: 20px 60px; /* Aumenta a altura e a largura do botão */
+  padding: 15px 60px; /* Aumenta a altura e a largura do botão */
   font-size: 15px; /* Aumenta levemente a fonte para acompanhar o novo tamanho */
 }
 
