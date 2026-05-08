@@ -136,7 +136,7 @@ export default function Home() {
             {/* Card 3: Estética */}
             <div 
               className="category-card spa" 
-              onClick={() => navigate("/categoria/estetica")}
+              onClick={() => navigate("/categoria/spa")}
               style={{ cursor: "pointer" }}
             >
               <div className="category-card-bg"></div>
