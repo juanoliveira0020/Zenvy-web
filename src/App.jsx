@@ -1,9 +1,10 @@
 import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-
-import Home from "./assets/screens/home";
+import { AuthProvider } from "./context/AuthContext";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 // TELAS
+import Home from "./assets/screens/home";
 import Barbearia from "./assets/screens/barbearia";
 import Barbearia_Detalhes from "./assets/screens/barbearia_detalhes";
 import Cadastro from "./assets/screens/cadastro";
@@ -18,35 +19,51 @@ import Profile from "./assets/screens/perfil_user";
 
 function App() {
   return (
-    <BrowserRouter>
-      <Routes>
-        {/* HOME (PRIMEIRA TELA) */}
-        <Route path="/" element={<Home />} />
+    <AuthProvider>
+      <BrowserRouter>
+        <Routes>
+          {/* PÚBLICA */}
+          <Route path="/" element={<Home />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/cadastro" element={<Cadastro />} />
+          <Route path="/categorias" element={<Categorias />} />
 
-        {/* DASHBOARD DA EMPRESA */}
-        <Route path="/dashboard" element={<DashboardEmpresa />} />
+          {/* CATEGORIAS */}
+          <Route path="/categoria/barbearia" element={<Barbearia />} />
+          <Route path="/categoria/manicure" element={<Manicure />} />
+          <Route path="/categoria/spa" element={<Spa />} />
 
-        {/* AUTH */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/cadastro" element={<Cadastro />} />
+          {/* DETALHES (públicas para visualizar, mas reserva exige login) */}
+          <Route path="/barbearia/:id" element={<Barbearia_Detalhes />} />
+          <Route path="/manicure/:id" element={<Manicure_Detalhes />} />
+          <Route path="/spa/:id" element={<Spa_Detalhes />} />
 
-        {/* CATEGORIAS */}
-        <Route path="/categorias" element={<Categorias />} />
+          {/* PROTEGIDAS — apenas clientes logados */}
+          <Route
+            path="/perfil"
+            element={
+              <ProtectedRoute requiredType="cliente">
+                <Profile />
+              </ProtectedRoute>
+            }
+          />
 
-        {/* CATEGORIAS ESPECÍFICAS */}
-        <Route path="/categoria/barbearia" element={<Barbearia />} />
-        <Route path="/categoria/manicure" element={<Manicure />} />
-        <Route path="/categoria/spa" element={<Spa />} />
-        {/* DETALHES */}
-        <Route path="/barbearia/:id" element={<Barbearia_Detalhes />} />
-        <Route path="/manicure/:id" element={<Manicure_Detalhes />} />
-        <Route path="/spa/:id" element={<Spa_Detalhes />} />
-        <Route path="/perfil" element={<Profile />} />
+          {/* PROTEGIDAS — apenas empresas logadas */}
+          <Route
+            path="/dashboard"
+            element={
+              <ProtectedRoute requiredType="empresa">
+                <DashboardEmpresa />
+              </ProtectedRoute>
+            }
+          />
 
-        {/* FALLBACK (opcional, mas recomendado) */}
-        <Route path="*" element={<Home />} />
-      </Routes>
-    </BrowserRouter>
+          {/* FALLBACK */}
+          <Route path="*" element={<Home />} />
+        </Routes>
+      </BrowserRouter>
+    </AuthProvider>
   );
 }
 
