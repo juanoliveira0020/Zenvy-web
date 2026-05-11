@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import { getEstablishment, getServices, createBooking, getOccupiedSlots } from "../../../firebase/db";
-import { useAuth } from "../../../context/AuthContext";
-import { signOut } from "../../../firebase/auth";
+import { getEstablishment, getServices, createBooking, getOccupiedSlots } from "../firebase/db";
+import { useAuth } from "../context/AuthContext";
+import { signOut } from "../firebase/auth";
 
 // Gera os próximos N dias úteis como opções de data
-function generateDates(count = 5) {
+function generateDates(count = 5) {;
   const dates = [];
   const now = new Date();
   let current = new Date(now);
