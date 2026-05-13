@@ -4,12 +4,12 @@ import { getFirestore } from "firebase/firestore";
 import { getStorage } from "firebase/storage";
 
 const firebaseConfig = {
-  apiKey: import.meta.env.VITE_FIREBASE_API_KEY,
-  authDomain: import.meta.env.VITE_FIREBASE_AUTH_DOMAIN,
-  projectId: import.meta.env.VITE_FIREBASE_PROJECT_ID,
-  storageBucket: import.meta.env.VITE_FIREBASE_STORAGE_BUCKET,
-  messagingSenderId: import.meta.env.VITE_FIREBASE_MESSAGING_SENDER_ID,
-  appId: import.meta.env.VITE_FIREBASE_APP_ID,
+  apiKey: "AIzaSyBf5pqmpoPEQKngpXRzJiyHjHhdTti9VCs",
+  authDomain: "zenvy-web.firebaseapp.com",
+  projectId: "zenvy-web",
+  storageBucket: "zenvy-web.firebasestorage.app",
+  messagingSenderId: "637202348545",
+  appId: "1:637202348545:web:0b0427d0c313046dc41e00"
 };
 
 const app = initializeApp(firebaseConfig);
