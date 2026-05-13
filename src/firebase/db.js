@@ -11,7 +11,6 @@ import {
   orderBy,
   onSnapshot,
   serverTimestamp,
-  Timestamp,
 } from "firebase/firestore";
 import { db } from "./config";
 
@@ -19,9 +18,6 @@ import { db } from "./config";
 //  USUÁRIOS
 // ─────────────────────────────────────────────
 
-/**
- * Cria o documento de perfil do usuário no Firestore.
- */
 export async function createUserProfile(uid, data) {
   await setDoc(doc(db, "users", uid), {
     ...data,
@@ -29,18 +25,12 @@ export async function createUserProfile(uid, data) {
   });
 }
 
-/**
- * Retorna o perfil completo de um usuário.
- */
 export async function getUserProfile(uid) {
   const snap = await getDoc(doc(db, "users", uid));
   if (!snap.exists()) return null;
   return { id: snap.id, ...snap.data() };
 }
 
-/**
- * Atualiza campos do perfil do usuário.
- */
 export async function updateUserProfile(uid, data) {
   await updateDoc(doc(db, "users", uid), {
     ...data,
@@ -52,9 +42,6 @@ export async function updateUserProfile(uid, data) {
 //  ESTABELECIMENTOS
 // ─────────────────────────────────────────────
 
-/**
- * Cria um estabelecimento vinculado ao uid do dono.
- */
 export async function createEstablishment(uid, data) {
   const ref = await addDoc(collection(db, "establishments"), {
     ...data,
@@ -71,18 +58,12 @@ export async function createEstablishment(uid, data) {
   return ref.id;
 }
 
-/**
- * Retorna um estabelecimento por ID.
- */
 export async function getEstablishment(estId) {
   const snap = await getDoc(doc(db, "establishments", estId));
   if (!snap.exists()) return null;
   return { id: snap.id, ...snap.data() };
 }
 
-/**
- * Retorna o estabelecimento de um dono (por ownerId).
- */
 export async function getEstablishmentByOwner(uid) {
   const q = query(
     collection(db, "establishments"),
@@ -96,22 +77,23 @@ export async function getEstablishmentByOwner(uid) {
 }
 
 /**
- * Retorna todos os estabelecimentos de uma categoria.
+ * Busca estabelecimentos por categoria.
+ * Usa apenas um filtro simples (sem orderBy no Firestore) para não
+ * exigir índice composto. A ordenação é feita em memória.
  */
 export async function getEstablishmentsByCategory(category) {
   const q = query(
     collection(db, "establishments"),
     where("category", "==", category),
-    where("active", "==", true),
-    orderBy("rating", "desc")
+    where("active", "==", true)
   );
   const snap = await getDocs(q);
-  return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+  const results = snap.docs.map((d) => ({ id: d.id, ...d.data() }));
+
+  // Ordena por rating decrescente em memória (sem precisar de índice)
+  return results.sort((a, b) => (b.rating || 0) - (a.rating || 0));
 }
 
-/**
- * Atualiza o perfil de um estabelecimento.
- */
 export async function updateEstablishment(estId, data) {
   await updateDoc(doc(db, "establishments", estId), {
     ...data,
@@ -123,9 +105,6 @@ export async function updateEstablishment(estId, data) {
 //  SERVIÇOS
 // ─────────────────────────────────────────────
 
-/**
- * Cria um serviço vinculado a um estabelecimento.
- */
 export async function createService(estId, data) {
   const ref = await addDoc(collection(db, "services"), {
     ...data,
@@ -136,9 +115,6 @@ export async function createService(estId, data) {
   return ref.id;
 }
 
-/**
- * Retorna os serviços de um estabelecimento.
- */
 export async function getServices(estId) {
   const q = query(
     collection(db, "services"),
@@ -153,10 +129,6 @@ export async function getServices(estId) {
 //  RESERVAS
 // ─────────────────────────────────────────────
 
-/**
- * Verifica se um slot (estId + date + time) já está ocupado.
- * Retorna true se disponível, false se ocupado.
- */
 export async function checkSlotAvailability(estId, date, time) {
   const q = query(
     collection(db, "bookings"),
@@ -169,9 +141,6 @@ export async function checkSlotAvailability(estId, date, time) {
   return snap.empty; // true = disponível
 }
 
-/**
- * Cria uma reserva no Firestore.
- */
 export async function createBooking({
   userId,
   userName,
@@ -205,9 +174,6 @@ export async function createBooking({
   return ref.id;
 }
 
-/**
- * Retorna todas as reservas de um usuário (cliente).
- */
 export async function getUserBookings(userId) {
   const q = query(
     collection(db, "bookings"),
@@ -218,9 +184,6 @@ export async function getUserBookings(userId) {
   return snap.docs.map((d) => ({ id: d.id, ...d.data() }));
 }
 
-/**
- * Retorna todas as reservas de um estabelecimento.
- */
 export async function getEstablishmentBookings(estId) {
   const q = query(
     collection(db, "bookings"),
@@ -247,11 +210,6 @@ export function onEstablishmentBookings(estId, callback) {
   });
 }
 
-/**
- * Atualiza o status de uma reserva.
- * @param {string} bookingId
- * @param {"pendente"|"confirmado"|"cancelado"|"concluído"} status
- */
 export async function updateBookingStatus(bookingId, status) {
   await updateDoc(doc(db, "bookings", bookingId), {
     status,
@@ -259,9 +217,6 @@ export async function updateBookingStatus(bookingId, status) {
   });
 }
 
-/**
- * Retorna os slots já ocupados de um estabelecimento em uma data.
- */
 export async function getOccupiedSlots(estId, date) {
   const q = query(
     collection(db, "bookings"),
