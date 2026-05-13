@@ -3,7 +3,46 @@ import { useNavigate } from "react-router-dom";
 import "./index.css";
 import { signUp } from "../../../firebase/auth";
 import { useAuth } from "../../../context/AuthContext";
+import { createEstablishment, createService } from "../../../firebase/db";
 import { seedDatabase } from "../../../firebase/seed";
+
+// Imagens padrão por categoria enquanto o dono não fizer upload próprio
+const DEFAULT_IMAGES = {
+  barbearia: {
+    imageUrl: "https://images.unsplash.com/photo-1503951914875-452162b0f3f1?q=80&w=800&auto=format&fit=crop",
+    bannerUrl: "https://images.unsplash.com/photo-1585747860715-2ba37e788b70?q=80&w=1920&auto=format&fit=crop",
+  },
+  manicure: {
+    imageUrl: "https://images.unsplash.com/photo-1522337660859-02fbefca4702?q=80&w=800&auto=format&fit=crop",
+    bannerUrl: "https://images.unsplash.com/photo-1604654894610-df63bc536371?q=80&w=1920&auto=format&fit=crop",
+  },
+  spa: {
+    imageUrl: "https://images.unsplash.com/photo-1515377905703-c4788e51af15?q=80&w=800&auto=format&fit=crop",
+    bannerUrl: "https://images.unsplash.com/photo-1600334089648-b0d9d3028eb2?q=80&w=1170&auto=format&fit=crop",
+  },
+};
+
+// Serviços padrão criados automaticamente ao cadastrar a empresa
+function getDefaultServices(cat) {
+  const map = {
+    barbearia: [
+      { name: "Corte Masculino", duration: 45, price: 50 },
+      { name: "Barba", duration: 30, price: 35 },
+      { name: "Corte + Barba", duration: 60, price: 75 },
+    ],
+    manicure: [
+      { name: "Manicure Completa", duration: 60, price: 80 },
+      { name: "Pedicure", duration: 60, price: 90 },
+      { name: "Nail Art", duration: 90, price: 150 },
+    ],
+    spa: [
+      { name: "Massagem Relaxante", duration: 50, price: 200 },
+      { name: "Tratamento Facial", duration: 45, price: 180 },
+      { name: "Day Spa", duration: 120, price: 500 },
+    ],
+  };
+  return map[cat] || [];
+}
 
 export default function Cadastro() {
   const navigate = useNavigate();
@@ -18,10 +57,11 @@ export default function Cadastro() {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
 
-  // Campos de empresa
+  // Campos exclusivos de empresa
   const [establishmentName, setEstablishmentName] = useState("");
   const [category, setCategory] = useState("");
   const [address, setAddress] = useState("");
+  const [description, setDescription] = useState("");
 
   // Redireciona se já logado
   useEffect(() => {
@@ -48,24 +88,47 @@ export default function Cadastro() {
       setError("A senha deve ter pelo menos 6 caracteres.");
       return;
     }
+    if (accountType === "empresa" && !category) {
+      setError("Selecione uma categoria para o estabelecimento.");
+      return;
+    }
 
     setIsSubmitting(true);
     try {
-      const extraData =
-        accountType === "empresa"
-          ? { establishmentName, category, address, phone: "" }
-          : { phone: "" };
+      // 1. Cria o usuário no Firebase Auth + perfil no Firestore
+      const firebaseUser = await signUp(email, password, name, accountType, { phone: "" });
 
-      await signUp(email, password, name, accountType, extraData);
+      // 2. Se for empresa, cria o documento do estabelecimento na coleção "establishments"
+      if (accountType === "empresa") {
+        const images = DEFAULT_IMAGES[category] || DEFAULT_IMAGES["barbearia"];
 
-      // Semeamos os estabelecimentos iniciais (só cria se não existir)
+        const estId = await createEstablishment(firebaseUser.uid, {
+          name: establishmentName,
+          category,
+          address,
+          description: description || `Bem-vindo ao ${establishmentName}.`,
+          imageUrl: images.imageUrl,
+          bannerUrl: images.bannerUrl,
+          openTime: "09:00",
+          closeTime: "19:00",
+        });
+
+        // 3. Cria os serviços padrão da categoria automaticamente
+        const defaultServices = getDefaultServices(category);
+        for (const svc of defaultServices) {
+          await createService(estId, svc);
+        }
+      }
+
+      // 4. Popula os estabelecimentos de demonstração (só cria se não existirem)
       try { await seedDatabase(); } catch (_) {}
 
+      // 5. Redireciona conforme o tipo de conta
       if (accountType === "empresa") navigate("/dashboard");
       else navigate("/perfil");
+
     } catch (err) {
-      const msg = firebaseErrorMessage(err.code);
-      setError(msg);
+      setError(firebaseErrorMessage(err.code));
     } finally {
       setIsSubmitting(false);
     }
@@ -73,14 +136,10 @@ export default function Cadastro() {
 
   function firebaseErrorMessage(code) {
     switch (code) {
-      case "auth/email-already-in-use":
-        return "Este e-mail já está cadastrado. Faça login.";
-      case "auth/invalid-email":
-        return "E-mail inválido.";
-      case "auth/weak-password":
-        return "Senha muito fraca. Use pelo menos 6 caracteres.";
-      default:
-        return "Erro ao criar conta. Tente novamente.";
+      case "auth/email-already-in-use": return "Este e-mail já está cadastrado. Faça login.";
+      case "auth/invalid-email": return "E-mail inválido.";
+      case "auth/weak-password": return "Senha muito fraca. Use pelo menos 6 caracteres.";
+      default: return "Erro ao criar conta. Tente novamente.";
     }
   }
 
@@ -144,57 +203,64 @@ export default function Cadastro() {
             </button>
           </div>
 
-          {error && <p className="form-error" style={{ color: "#e74c3c", fontSize: "0.875rem", marginBottom: "8px" }}>{error}</p>}
+          {error && (
+            <p style={{ color: "#e74c3c", fontSize: "0.875rem", marginBottom: "12px", padding: "10px 14px", background: "rgba(231,76,60,0.1)", borderRadius: "8px", border: "1px solid rgba(231,76,60,0.3)" }}>
+              {error}
+            </p>
+          )}
 
           <form className="signup-form" onSubmit={handleSubmit}>
+
+            {/* ── CLIENTE ── */}
             {accountType === "cliente" && (
               <>
                 <div className="form-group">
                   <label>Seu nome</label>
-                  <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
+                  <input type="text" value={name} onChange={(e) => setName(e.target.value)} required placeholder="João Silva" />
                 </div>
                 <div className="form-group">
                   <label>E-mail</label>
-                  <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                  <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="voce@email.com" />
                 </div>
                 <div className="form-group">
                   <label>Senha</label>
-                  <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required placeholder="Mín. 6 caracteres" />
+                  <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required placeholder="Mínimo 6 caracteres" />
                 </div>
                 <div className="form-group">
                   <label>Confirmar senha</label>
-                  <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
+                  <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required placeholder="Repita a senha" />
                 </div>
               </>
             )}
 
+            {/* ── EMPRESA ── */}
             {accountType === "empresa" && (
               <>
                 <div className="form-group">
                   <label>Nome do responsável</label>
-                  <input type="text" value={name} onChange={(e) => setName(e.target.value)} required />
+                  <input type="text" value={name} onChange={(e) => setName(e.target.value)} required placeholder="Seu nome completo" />
                 </div>
                 <div className="form-group">
                   <label>E-mail corporativo</label>
-                  <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required />
+                  <input type="email" value={email} onChange={(e) => setEmail(e.target.value)} required placeholder="contato@estabelecimento.com" />
                 </div>
                 <div className="form-group">
                   <label>Senha</label>
-                  <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required placeholder="Mín. 6 caracteres" />
+                  <input type="password" value={password} onChange={(e) => setPassword(e.target.value)} required placeholder="Mínimo 6 caracteres" />
                 </div>
                 <div className="form-group">
                   <label>Confirmar senha</label>
-                  <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required />
+                  <input type="password" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} required placeholder="Repita a senha" />
                 </div>
                 <div className="form-group">
                   <label>Nome do estabelecimento</label>
-                  <input type="text" value={establishmentName} onChange={(e) => setEstablishmentName(e.target.value)} required />
+                  <input type="text" value={establishmentName} onChange={(e) => setEstablishmentName(e.target.value)} required placeholder="Ex: Barbearia do João" />
                 </div>
                 <div className="form-group">
-                  <label>Categoria principal</label>
+                  <label>Categoria</label>
                   <div className="select-wrapper">
-                    <select value={category} onChange={(e) => setCategory(e.target.value)} required defaultValue="">
-                      <option value="" disabled>Selecione uma opção</option>
+                    <select value={category} onChange={(e) => setCategory(e.target.value)} required>
+                      <option value="" disabled>Selecione uma categoria</option>
                       <option value="barbearia">Barbearia</option>
                       <option value="manicure">Manicure</option>
                       <option value="spa">Spa</option>
@@ -208,17 +274,27 @@ export default function Cadastro() {
                 </div>
                 <div className="form-group">
                   <label>Endereço</label>
-                  <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} required />
+                  <input type="text" value={address} onChange={(e) => setAddress(e.target.value)} required placeholder="Ex: São Paulo - Rua das Flores, 100" />
+                </div>
+                <div className="form-group">
+                  <label>Descrição <span style={{ color: "#666", fontWeight: 400 }}>(opcional)</span></label>
+                  <input type="text" value={description} onChange={(e) => setDescription(e.target.value)} placeholder="Uma frase sobre o seu estabelecimento" />
                 </div>
               </>
             )}
 
-            <button type="submit" className={`btn btn-gold w-100 mt-2 ${isSubmitting ? "loading" : ""}`} disabled={isSubmitting}>
-              {isSubmitting ? "Processando..." : "Criar conta"}
+            <button
+              type="submit"
+              className={`btn btn-gold w-100 mt-2 ${isSubmitting ? "loading" : ""}`}
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? "Criando conta..." : "Criar conta"}
             </button>
           </form>
 
-          <p className="signup-login-link">Já tem conta? <a href="/login" onClick={(e) => handleNavigation(e, "/login")}>Entrar</a></p>
+          <p className="signup-login-link">
+            Já tem conta? <a href="/login" onClick={(e) => handleNavigation(e, "/login")}>Entrar</a>
+          </p>
         </div>
       </main>
 
